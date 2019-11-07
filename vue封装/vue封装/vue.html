@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="js/vue.js"></script>
+    <script src="js/resource.js"></script>
+</head>
+<body>
+        <div id="app" style="display: inline-block;position:absolute;top:20px;left:270px;display: flex">
+                <h3 class="h3">区域：</h3>
+                <custom-select btn="查询" :list="list1"></custom-select>
+        </div>
+      
+      <div class="container" id="appa">
+            <div style="display: flex;height: 30px">
+                <h3 style="line-height: 30px">机构名称：</h3>
+                <input type="text" placeholder="search" @input="search" class="search" />
+                <datalist id="cars">
+                    <option v-for="item in searchlist" :value="item"></option>
+                </datalist>
+                <!-- <div id="app"> -->
+
+                        <!-- <h3 class="h3">区域：</h3>
+                        <custom-select btn="查询" :list="list1"></custom-select> -->
+                        <div style="width: 200px;height:30px"></div>
+                        <div style="display: flex;margin-left:30px; ">
+                            <div >
+                               <img src="img/search20ds.png" style="margin-top:5px"> 
+                            </div>
+                            <p style="line-height: 30px" @click="inquire">查询数据</p>
+                        </div>
+                        <div style="display: flex;margin-left:30px; ">
+                                <div style="height: 30px">
+                                   <img src="img/down20w.png" style="margin-top:5px;"> 
+                                </div>
+                                <p style="line-height: 30px">导出打印</p>
+                            </div>
+                            <div style="display: flex;margin-left:30px; ">
+                                    <div style="height: 30px">
+                                       <img src="img/cancel21b.png" style="margin-top:5px"> 
+                                    </div>
+                                    <p style="line-height: 30px">重置条件</p>
+                                </div>  
+                      
+                      <div @click="add" style="display: flex;margin-left:30px;" >
+                            <div style="height: 30px">
+                               <img src="img/insert21b.png" style="margin-top:5px"> 
+                            </div>
+                            <p style="line-height: 30px">新增机构</p>
+                        </div>
+                <!-- <input type="button" class="add" @click="add" value="新增" /> -->
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <th>序号</th>
+                        <th>隐患名称</th>
+                        <th>单位类别</th>
+                        <th>隐患描述</th>
+                        <!-- <th>省份</th>
+                        <th>爱好</th> -->
+                        <th>操作</th>
+                    </tr>
+                    <tr v-cloak v-for="(item, index) in slist">
+                        <td>{{ item.RowNumber }}</td>
+                        <td>{{ item.Name }}</td>
+                        <td>{{ item.TradeTypeId }}</td>
+                        <td>{{ item.Memo }}</td>
+                        <!-- <td>{{ item.province }}</td>
+                        <td>{{ item.hobby.join(' ') }}</td> -->
+                        <td>
+                            <a href="javascript:;" @click="showOverlay(index)">修改</a> |
+                            <a href="javascript:;" @click="del(index)">删除</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <model :list="selectedlist" :aa="lista" :isactive="isActive" v-cloak @change="changeOverlay" @modify="modify"></model>
+        </div>
+
+      <script>
+        //注册组件
+        let list1 = ["北京","上海","深圳","郑州","南阳"];
+        
+        Vue.component("custom-select",{
+          data:function(){
+            return {
+              selectShow:false,
+              val:""
+            }
+          },
+        //   <input type="button" :value="btn"/>
+          props:["btn","list"],
+          template:`
+          <section class="wrap">
+          <div class="searchIpt clearFix">
+            <div class="clearFix">
+              <input type="text"
+               class="keyWord"
+               :value="val"
+               @click="selectShow=!selectShow"
+               />
+               <img src="img/QQ20190725154749.png" class="imga">
+            </div>
+            <custom-list
+            v-show="selectShow"
+             :list="list"
+             v-on:value1="selectValueHandle"
+             ></custom-list>
+          </div>
+        </section>
+          `,
+          methods:{
+            selectValueHandle(value){
+              this.val = value;
+              this.selectShow = false;
+            }
+          }
+        });
+        
+        Vue.component("custom-list",{
+          props:["list"],
+          template:`
+            <ul class="list">
+              <li
+                v-for="item in list"
+                @click="searchValueHandle(item)"
+              >{{item}}</li>
+            </ul>
+          `,
+          methods:{
+            searchValueHandle(item){
+              this.$emit("value1",item);
+            }
+            
+          }
+        });
+        var vm = new Vue({
+          el:"#app",
+          data:{
+            list1:["全部"],
+            list2:[]
+          },
+          methods:{
+            ag_please:function(){
+            this.$http.get("http://nz.senzdowe.com/HiddenDanger/CollectTradeType.ashx",
+            	{
+				params:{ 
+					XuserId:1,
+				    MethodName: "GetPermissionTradeTypeListByXuserId"
+				}	
+			}
+			)
+			.then(res =>{
+                // console.log(res);
+                // console.log(res.data[0].Name);
+                // console.log(res.data[0]);
+                for(var i = 0;i<res.data.length;i++){
+                this.list1.push(res.data[i].Name);
+                this.list2.push(res.data[i]);
+                }
+                // console.log(this.list2);
+                
+            })
+          }
+          },
+         created() {
+		this.ag_please();
+	},
+
+        });
+
+    Vue.component('model', {
+    props: ['list', 'isactive','aa'],
+    template: `<div class="overlay" v-show="isactive">
+                <div class="con">
+                    <h2 class="title">新增 | 修改</h2>
+                    <div class="content">
+                        <table>
+                            <tr>
+                                <td>用户名</td>
+                                <td><input type="text" v-model="modifylist.username"></td>
+                            </tr>
+                            <tr>
+                                <td>邮箱</td>
+                                <td><input type="text" v-model="modifylist.email"></td>
+                            </tr>
+                            <tr>
+                                <td>性别</td>
+                                <td>
+                                    <label><input type="radio" name="sex" value="男" v-model="modifylist.sex">男</label>
+                                    <label><input type="radio" name="sex" value="女" v-model="modifylist.sex">女</label>
+                                    <label><input type="radio" name="sex" value="未知" v-model="modifylist.sex">未知</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>省份</td>
+                                <td>
+                                    <select name="" id="" v-model="modifylist.province">
+                                        <option v-for="(aa,index) in aap" :value="aa">{{aa}}</option>
+                            
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>爱好</td>
+                                <td>
+                                    <label><input type="checkbox" v-model="modifylist.hobby" value="篮球">篮球</label>
+                                    <label><input type="checkbox" v-model="modifylist.hobby" value="读书">读书</label>
+                                    <label><input type="checkbox" v-model="modifylist.hobby" value="插画">插画</label>
+                                    <label><input type="checkbox" v-model="modifylist.hobby" value="编程">编程</label>
+                                    <label><input type="checkbox" v-model="modifylist.hobby" value="弹琴">弹琴</label>
+                                </td>
+                            </tr>
+                        </table>
+                        <p>
+                            <input type="button" @click="changeActive" value="取消">
+                            <input type="button" @click="modify" value="保存">
+                        </p>
+                    </div>
+                </div>
+            </div>`,
+    computed: {
+        modifylist() {
+            return this.list;
+        },
+        aap() {
+            return this.aa;
+        }
+
+    },
+    methods: {
+        changeActive() {
+            this.$emit('change');
+        },
+        modify() {
+            this.$emit('modify', this.modifylist);
+        }
+    }
+});
+var app = new Vue({
+    el: '#appa',
+    data: {
+        isActive: false, // 是否显示弹窗
+        selected: -1, // 选择了哪条记录
+        selectedlist: {}, // 选中的信息
+        slist: [],
+        searchlist: [],
+        lista:["北京市"],
+        value:"",
+        list: [
+            {
+                username: 'aaaaa',
+                email: '123@qq.com',
+                sex: '男',
+                province: '北京市',
+                hobby: ['篮球', '读书', '编程']
+            },
+            {
+                username: 'bbbbb',
+                email: 'bbbbbbb@163.com',
+                sex: '女',
+                province: '河北省',
+                hobby: ['弹琴', '读书', '插画']
+            },
+            {
+                username: 'aaabb',
+                email: 'abababab@qq.com',
+                sex: '女',
+                province: '重庆市',
+                hobby: ['篮球']
+            },
+            {
+                username: 'cccccc',
+                email: '123@qq.com',
+                sex: '男',
+                province: '北京市',
+                hobby: ['篮球', '读书', '编程']
+            },
+            {
+                username: 'dddddd',
+                email: 'bbbbbbb@163.com',
+                sex: '女',
+                province: '河北省',
+                hobby: ['弹琴', '读书', '插画']
+            },
+            {
+                username: 'eeeee',
+                email: 'abababab@qq.com',
+                sex: '女',
+                province: '重庆市',
+                hobby: ['篮球']
+            }
+        ]
+    },
+    created() {
+      
+       
+        var lists = this.list;
+        for(var i = 0;i<lists.length;i++){
+            if(lists[i].province == lists[i].province){
+                this.lista.push(lists[i].province);
+            }
+        }
+        function uniq(array){
+           var temp = []; //一个新的临时数组
+           for(var i = 0; i < array.length; i++){
+           if(temp.indexOf(array[i]) == -1){
+            temp.push(array[i]);
+           }
+           }
+           return temp;
+        }
+        var aa = this.lista;
+        this.lista = uniq(aa);
+    },
+    methods: {
+        // 修改数据
+        showOverlay(index) {
+            this.selected = index;
+            this.selectedlist = this.list[index];
+            this.changeOverlay();
+        },
+        // 点击保存按钮
+        modify(arr) {
+            if (this.selected > -1) {
+                Vue.set(this.list, this.selected, arr);
+                this.selected = -1;
+            } else {
+                this.list.push(arr);
+            }
+            this.setSlist(this.list);
+            this.changeOverlay();
+        },
+        //新增
+        add: function() {
+            alert("111")
+            this.selectedlist = {
+                username: '',
+                email: '',
+                sex: '男',
+                province: '北京市',
+                hobby: []
+            };
+            this.selected = -1;
+            this.isActive = true;
+        },
+        // delete 删除
+        del(index) {
+            this.list.splice(index, 1);
+            this.setSlist(this.list);
+        },
+        changeOverlay() {
+            this.isActive = !this.isActive;
+        },
+        // 获取需要渲染到页面中的数据
+        setSlist(arr) {
+            this.slist = JSON.parse(arr);
+            // console.log(this.slist);JSON.stringify(arr)
+        },
+        // 搜索
+        search(e) {
+            var v = e.target.value,
+                self = this;
+            self.searchlist = [];
+            if (v) {
+                var ss = [];
+                // 过滤需要的数据
+                this.list.forEach(function(item) {
+                    if (item.username.indexOf(v) > -1) {
+                        if (self.searchlist.indexOf(item.username) == -1) {
+                            self.searchlist.push(item.username);
+                        }
+                        ss.push(item);
+                    } else if (item.email.indexOf(v) > -1) {
+                        if (self.searchlist.indexOf(item.email) == -1) {
+                            self.searchlist.push(item.email);
+                        }
+                        ss.push(item);
+                    }
+                });
+                this.setSlist(ss); // 将过滤后的数据给了slist
+            } else {
+                // 没有搜索内容，则展示全部数据
+                this.setSlist(this.list);
+            }
+        },
+        inquire:function(value){
+            this.value = value;
+            
+        },
+        ag_please:function(){
+            this.$http.get("http://nz.senzdowe.com/HiddenDanger/CollectHiddenDanger.ashx",
+            	{
+				params:{ 
+					XuserId:1,
+                    name:'',
+                    tradeTypeId:1,
+                    dataStatusId:1,
+				    MethodName: "HiddenDangerGetList"
+				}	
+			}
+			)
+			.then(res =>{
+                console.log(res);
+                this.list=res.data.recordSet;
+                console.log(this.list);
+                this.setSlist(this.list);
+                console.log(this.slist);
+                // console.log(res.data.recordSet[0]);
+            })
+        
+    },
+    },
+    created() {
+        this.ag_please();
+        	
+	},
+    watch: {}
+    
+});
+
+
+      </script>
+      <style>
+          *{
+              margin: 0px;
+              padding: 0px;
+          }
+    #app{
+        
+        line-height: 30px;
+        
+    }
+    body{
+        margin:0;
+        font-family:"微软雅黑";
+    }
+    .h3{
+        margin-left:30px; 
+    }
+    ul li{
+        margin:0;
+        padding:0;
+        list-style:none;
+    }
+    input{
+        outline:0;
+        cursor:pointer
+    }
+    .clearFix:after{
+        display:block;
+        content:"";
+        clear:both;
+    }
+    .clearFix{
+        position: relative;
+    }
+    .imga{
+        position: absolute;
+        top:0px;
+        left: 112px;
+    }
+    .searchIpt{
+        position:relative;
+        width:137px;
+        /* border:1px solid #3736ae; */
+        /* padding:3px; */
+        /* border-radius:24px; */
+        background:#e4e4fe;
+    }
+    .searchIpt input{
+        line-height:25px;
+        /* border-radius:18px; */
+    }
+    .searchIpt input:nth-of-type(1){
+        float:left;
+        width:120px;
+        padding-left:15px;
+        border:1px solid #c9c9d5;
+        
+    }
+    .searchIpt input:nth-of-type(2){
+        float:right;
+        width:58px;
+        /* height:25px; */
+        /* border:1px solid #fd635e;
+        background:#fd635e; */
+    }
+    .searchIpt span{
+        position:absolute;
+        top:12px;
+        left:15px;
+        width:23px;
+        height:23px;
+        background:url(images/select_search.png) no-repeat;
+    }
+    /* .searchIpt input:nth-of-type(1):focus{
+        background:#fff;
+        border-color:#fd635e;
+    } */
+    .list{
+        margin-top:9px;
+    }
+    .list li{
+        margin:3px 0;
+        color:#333;
+        line-height:25px;
+        padding-left:10px;
+        width:110px;
+        box-sizing:border-box;
+        border-radius:14px;
+    }
+    .list li.active,.list li:hover{
+        color:#fff;
+        background:#fd635e;
+        cursor:pointer;
+    }
+
+
+
+    [v-cloak]{
+    display:none
+}
+table{
+    border:1px solid #ccc;
+    padding:0;
+    border-collapse:collapse;
+    table-layout:fixed;
+    margin-top:10px;
+    width:100%
+}
+table td,table th{
+    height:30px;
+    border:1px solid #ccc;
+    background:#fff;
+    font-size:15px;
+    padding:3px 3px 3px 8px;
+}
+table th:first-child{
+    width:30px;
+}
+table th:nth-of-type(2){
+    width:600px;
+}
+.container{
+    width:1300px;
+    margin:20px 0px;
+    font-size:13px;
+    font-family:'Microsoft YaHei';
+}
+.container .search{
+    font-size:15px;
+    padding:4px;
+}
+.container .add{
+    padding:5px 15px
+}
+.overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:6;
+    background:rgba(0,0,0,.7);
+    }
+.overlay td:first-child{
+    width:66px;
+}
+.overlay .con{
+    position:absolute;
+    width:420px;
+    min-height:300px;
+    background:#fff;
+    left:50%;
+    top:50%;
+    -webkit-transform:translate3d(-50%,-50%,0);
+    transform:translate3d(-50%,-50%,0);
+    padding:20px;
+}
+      </style>
+</body>
+</html>

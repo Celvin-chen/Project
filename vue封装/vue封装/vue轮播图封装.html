@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="js/jquery.js"></script>
+    <script src="js/SlideshowPackaging.js"></script>
+    <script src="js/vue.js"></script>
+    <style>
+    *{
+        margin: 0px;
+        padding: 0px;
+    }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    <script>
+         var width = 600;
+         var height = 375;
+         var position ='absolute';
+         var x = 600;
+         var y = 100;
+         var array = ["img/320113.jpg","img/324234.jpg"];
+         carousel = new SlideshowPackaging(width,height,position,x,y);
+         carousel.parentContainer = $("#app");
+         carousel.parentContainervue = "#app";
+         carousel.Slideshow();    
+    </script>
+</body>
+</html>

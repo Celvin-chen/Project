@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>总钱数:{{moneyBook}}</h1>
+        <h2>{{name}}</h2>
+    </div>
+    
+    <script>
+       const app = new Vue({
+           el: "#app",
+           data: {
+               books:[
+                   {id:100,name:"chenxu",money:100},
+                   {id:101,name:"yang",money:150},
+                   {id:102,name:"chen",money:200},
+               ],
+               name:"nihao"
+           },
+           computed: {
+               moneyBook:function(){
+                  // let moneys = 0;
+                //    for(let i = 0; i<this.books.length;i++){
+                //        moneys += this.books[i].money
+                //    }
+                // for(let i in this.books){
+                //     moneys += this.books[i].money;
+                // }
+                // for(let b of this.books){
+                //     moneys += b.money
+                // }
+                //map,filter,reduce
+                   let moneys = this.books.reduce((pro,n) => pro + n.money,0)
+                   return moneys;
+               }
+           }
+       })
+    </script>
+</body>
+</html>
