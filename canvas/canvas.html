@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas</title>
+</head>
+<body>
+    <div>
+        <canvas id="demo" width="600" height="600">
+
+       </canvas> 
+    </div>
+   <script>
+       let cox = document.getElementById("demo");
+       let con = cox.getContext("2d");
+       cox.style.border = "1px solid red";
+       con.moveTo(100,100);
+       con.lineTo(300,100);
+       con.lineTo(100,300);
+       con.closePath();
+       con.lineWidth = 4;
+       con.strokeStyle = "blue";
+       con.stroke();
+       con.fillStyle='red';
+       con.fill();
+   </script>
+</body>
+</html>

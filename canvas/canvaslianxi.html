@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvaslianxi</title>
+    <style>
+  
+    </style>
+</head>
+<body>
+    <div>
+        <canvas id="demo" width="1200" height="2000">
+
+       </canvas> 
+    </div>
+   <script>
+       let cox = document.getElementById("demo");
+       let con = cox.getContext("2d");
+       cox.style.border = "1px solid red";
+       con.moveTo(100,100);
+       con.lineTo(100,450);
+
+       con.moveTo(90,110);
+       con.lineTo(100,100);
+       con.moveTo(110,110);
+       con.lineTo(100,100);
+
+       con.moveTo(100,450);
+       con.lineTo(1000,450);
+
+       con.moveTo(990,440);
+       con.lineTo(1000,450);
+       con.moveTo(990,460);
+       con.lineTo(1000,450);
+
+
+       con.lineWidth = 2;
+       con.strokeStyle = "blue";
+       con.stroke();
+       
+       con.beginPath();
+       con.moveTo(100,450);
+       con.lineTo(220,400);
+       con.lineTo(320,300);
+       con.lineTo(420,350);
+       con.lineTo(520,200);
+       con.lineTo(620,270);
+       con.lineTo(720,230);
+       con.lineTo(820,220);
+      
+       con.lineWidth = 2;
+       con.strokeStyle = "red";
+       con.stroke();
+
+       con.beginPath();
+       con.strokeStyle = "green";
+       con.rect(100,500,50,50);
+       con.stroke();
+       con.fillStyle='red';
+       con.fill();
+       
+       con.beginPath();
+       con.strokeRect(300,500,100,100);
+
+       con.beginPath();
+       con.fillRect(500,500,100,100);
+       //饼状画法1
+       con.beginPath();
+       con.moveTo(100,700);
+       con.arc(100,700,100,0 * Math.PI/180,30 * Math.PI/180);
+       con.closePath();
+       con.stroke();
+        //饼状画法2
+       con.beginPath();
+       con.moveTo(500,800);
+       con.arc(500,800,150,0 * Math.PI/180,30 * Math.PI/180,true);
+       con.closePath();
+       con.stroke();
+       con.fillStyle = "pink"
+       con.fill();
+
+
+   </script>
+</body>
+</html>

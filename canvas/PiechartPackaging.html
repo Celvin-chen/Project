@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PiechartPackaging</title>
+    <script src="js/PiechartPackaging.js"></script>
+    <style>
+      *{
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+</head>
+<body>
+    <div id = "adiv">
+
+    </div>
+</body>
+  <script>
+      var carousel = null;
+      var width = 500;
+      var height = 500;
+      var x = 250;
+      var y = 250;
+      var r = 100;
+      var data =  [
+        {
+            values:0.1,
+            color:"red",
+            name : "毛衣"
+        },
+        {
+            values:0.23,
+            color:"blue",
+            name : "裤子"
+        },
+        {
+            values:0.1,
+            color:"pink",
+            name : "短裙"
+        },
+        {
+            values:0.3,
+            color:"green",
+            name : "外套"
+        },
+        {
+            values:0.27,
+            color:"black",
+            name : "长裙"
+        }
+    ];
+      carousel = new PiechartPackaging(width,height,x,y,r);
+      carousel.parentContainer = document.getElementById("adiv");
+      carousel.data = data;
+      carousel.Execute();
+  </script>
+</html>

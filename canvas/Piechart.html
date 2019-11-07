@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Piechart</title>
+    <style>
+    div{
+        width: 200px;
+        height: 500px;
+        margin-left: 100px;
+        border: 1px solid blue;
+    }
+    </style>
+</head>
+<body>
+    <div>
+        <canvas id="demo">
+
+        </canvas>
+    </div>
+</body>
+  <script>
+      var data = [
+          {
+              values:0.1,
+              color:"red",
+              name : "毛衣"
+            },
+          {
+              values:0.2,
+              color:"blue",
+              name : "裤子"
+            },
+          {
+              values:0.1,
+              color:"pink",
+              name : "短裙"
+            },
+          {
+              values:0.3,
+              color:"green",
+              name : "外套"
+            },
+          {
+              values:0.3,
+              color:"black",
+              name : "长裙"
+            }
+      ];
+       var canvas = document.getElementById("demo");
+       var ctx = canvas.getContext("2d");
+       canvas.width = 1000;
+       canvas.height = 600;
+       canvas.style.border = "1px solid red";
+       let x = 300;
+       let y = 300;
+       let r = 200;
+       let initialization = -90;
+       for(let i = 0;i<data.length;i++){
+           ctx.beginPath();
+           let angle = data[i].values * 360;
+           let color = data[i].color;
+           let begin = initialization * Math.PI/180;
+           let finish = (initialization + angle) * Math.PI/180;
+           //文字角度
+           let text = data[i].values * 100 + "%" +" "+ data[i].name;
+           let textAngle = initialization + angle/2;
+           let textX = x + Math.cos(textAngle * Math.PI/180) * (r + 20);
+           let textY = y + Math.sin(textAngle * Math.PI/180) * (r + 20);
+           
+           ctx.moveTo(x, y);
+           ctx.arc(x,y,r,begin,finish)
+           ctx.fillStyle = color;
+           if(textAngle > 90 && textAngle < 270){
+               ctx.textAlign = "end";
+           }
+           ctx.fillText(text,textX,textY);
+           ctx.fill();
+           initialization += angle;
+
+       }
+
+  </script>
+</html>
