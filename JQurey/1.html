@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="js/jquery.js"></script>
+  <script src="js/1.js"></script>
+  <style>
+  body{
+    background: beige;
+     border: 1px solid black;
+     display: inline-block;
+     display: flex;
+    
+  }
+  </style>
+</head>
+<body>
+  <script>
+  // var json = [{dd:'SB'},{AA:'东东'},{re1:123},{cccc:'dd'},{lk:'1qw'}];
+  // for(var i=0,l=json.length;i<l;i++){
+  //    for(var key in json[i]){
+  //        alert(key+':'+json[i][key]);
+  //    }
+  // }
+  var json = [{ID:"S",name:"sb1"},{ID:'东东',name:"东东1"},{ID:"123",name:"1234"},{ID:'dd',name:"dd1"},{ID:'1qw',bb:"1qw1"}];
+  var aa ="sb1"
+  for(var i = 0; i<json.length;i++){
+    if(json[i].name == aa ){
+       alert(json[i].ID);
+    }
+    
+  }
+
+
+  // var json =   [{AA:"SB",bb:"sb1"},{AA:'东东',bb:"东东1"},{AA:123,bb:"1234"},{AA:'dd',bb:"dd1"},{AA:'1qw',bb:"1qw1"}];;
+  // for(key in json[0]){
+  //  alert(json[0].AA);
+  //   }
+ 
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    *{
+        margin: 0px;
+        padding: 0px;
+    }
+    .adiv{
+        width: 400px;
+        height: 400px;
+        border: 1px solid #000;
+        position: relative;
+        overflow: hidden;
+        float: left;
+    }
+    .oDiv{
+        width: 100px;
+        height: 100px;
+        border: 1px solid red;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        cursor: pointer;
+    }
+    .bdiv{
+        width: 400px;
+        height: 400px;
+        border: 1px solid #000;
+        float: left;
+        display: none;
+        
+    }
+    </style>
+</head>
+<body>
+    <div class="adiv">
+        <img src="img/325392.jpg" width="400px">
+        <div class="oDiv">
+        
+        </div>
+    </div>
+    <div class="bdiv">
+        <img src="img/325392.jpg" width="400px">
+    </div>
+</body>
+</html>
+<script>
+        window.onload=function(){
+            var adiv=document.getElementsByClassName("adiv")[0];
+            var oDiv=document.getElementsByClassName("oDiv")[0];
+            adiv.onmousemove=function(e){
+                var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
+                var scrollLeft=document.documentElement.scrollLeft||document.body.scrollLeft;
+                var oEv=e||event;
+                oDiv.style.left=oEv.clientX+scrollLeft-50+"px";
+                oDiv.style.top=oEv.clientY+scrollTop-50+"px";
+            }
+            var bdiv=document.getElementsByClassName("bdiv")[0];
+            adiv.onmouseover=function(){
+                bdiv.style.display="block";
+            }
+            adiv.onmouseout=function(){
+                bdiv.style.display="none";
+            }
+            
+        }
+</script>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Title</title>
+    <script src="JS/jquery.js"></script>
+</head>
+<body>
+                <form class="form-horizontal" enctype="multipart/form-data" role="form" id="testform">
+                    <div class="control-group">
+                        <div class="col-md-9">
+                            <img src="" width="500px" height="500px">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input id="photoCover" class="form-control" readonly type="text">
+                        <label class="input-group-btn">
+                            <input id="file" type="file" name="file" style="left: -9999px; position: absolute;">
+                            <span class="btn btn-default">Browse</span>
+                        </label>
+                    </div>
+                </form>
+  
+    
+    <script>
+
+        //html5实现图片预览功能
+        $(function () {
+            $("#file").change(function (e) {
+                var file = e.target.files[0] || e.dataTransfer.files[0];
+                $('#photoCover').val(document.getElementById("file").files[0].name);
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        $("img").attr("src", this.result);
+                        console.log(this.result)
+                    }
+                    reader.readAsDataURL(file);
+                    console.log(file);
+                    console.log(reader)
+                }
+            });
+        })
+        //方式一 Jquery实现
+    
+    </script>
+</body>
+</html>

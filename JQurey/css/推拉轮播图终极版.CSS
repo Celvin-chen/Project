@@ -1,0 +1,70 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.adiv{
+    width: 600px;
+    height: 375px;
+    border: 1px solid red;
+    margin: 150px auto;
+    position: relative;
+    overflow: hidden;
+}
+.oul1{
+    /* width: 1800px;
+    height: 375px;
+    border: 1px solid blue; */
+    position: absolute;
+    top: 0px;
+    left: -600px;
+}
+.oul1 li{
+    position: absolute;
+    list-style: none;
+    /* display: none; */
+    top: 0px;
+    left: 0px;
+}
+.oul2 {
+    position: absolute;
+    top: 330px;
+    /*left: 0px;*/
+    width: 100%;
+    text-align: center;
+}
+.oul2 li{
+    width: 20px;
+    height: 20px;
+    background: darkgray;
+    border-radius: 100%;
+    display: inline-block;
+    margin: 0px 2px;
+    font-family: "微软雅黑";
+    font-size: 11px;
+    cursor: pointer;
+    line-height: 20px;
+    text-align: center;
+}
+.oul2 .ali{
+    background: crimson;
+}
+.left,.right{
+    display: block;
+    width: 30px;
+    height: 50px;
+    background: rgba(34,92,118,0.5);
+    position: absolute;
+    font-family: 微软雅黑;
+    font-size: 30px;
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+}
+.left{
+    left: 0px;
+    top: 162.5px;
+}
+.right{
+    left: 570px;
+    top: 162.5px;
+}

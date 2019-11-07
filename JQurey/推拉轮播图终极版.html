@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title></title>
+		<script src="js/jquery.js"></script>
+		<link rel="stylesheet" href="css/推拉轮播图终极版.CSS">
+	</head>
+	<body>
+		<div class="adiv">
+			<ul class="oul1">
+                    <li><a href="#"><img src="img/308708.jpg" width="600"></a></li>
+                    <li><a href="#"><img src="img/315325.jpg" width="600"></a></li>
+                    <li><a href="#"><img src="img/320113.jpg" width="600"></a></li>
+                    <li><a href="#"><img src="img/324234.jpg" width="600"></a></li>
+                    <li><a href="#"><img src="img/325132.jpg" width="600"></a></li>
+					<li><a href="#"><img src="img/325392.jpg" width="600"></a></li>    
+			</ul>
+			<ul class="oul2">
+				
+			</ul>
+			<span class="left"><</span>
+			<span class="right">></span>
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	// $(function(){
+		// 自动添加小圆点
+		var size=$(".oul1 li").size();
+	    for (var i=1;i<=size;i++) { 
+	    	$(".oul2").append("<li>"+i+"</li>");
+        }
+		// 初始化开始
+	    $(".oul2 li").eq(0).addClass("ali");
+		var width=$(".adiv").width();
+		var height=$(".adiv").height();
+		$(".oul1 li").eq(0).css({"left":width+"px"}).show().siblings().hide();
+		var leftL =$(".left").height();
+		$(".left").css({"top":(height-leftL)/2+"px"})
+		var rightr=$(".right").width();
+		$(".right").css({"left":width-rightr+"px","top":(height-leftL)/2+"px"})
+		var oul2=$(".oul2").css({"top":(height-47)+"px"});
+		// 手动
+        $(".oul2 li").mouseenter(function(){
+		var index=$(this).index(); 	
+		// $(this).addClass("ali").siblings().removeClass("ali");
+        // $(".oul1 li").eq(index).show().siblings().hide().stop().css({"left":"0px"});
+		// // 判断共用条件
+		// $(".oul1 li").eq(index).stop().css({"left":"0px"}).animate({left:"600px"},800);
+        // if(index==0){
+        //     $(".oul1 li").eq(size-1).hide().css({"left":"600px"}).animate({left:"1200px"},800).show();
+        // }
+        // else{
+        //     $(".oul1 li").eq(index-1).css({"left":"600px"}).animate({left:"1200px"},800).show();
+        // }
+		// 监听过去划的下标i因为i等价于index，一定要先赋值后比较；
+		var aa=i;
+		i=index;
+		// 比较过去和现在的index
+		if(index>=aa){
+            console.log(aa+"you"+index);
+			right();
+		}
+		else {
+            console.log(aa+"左"+index);  
+			left();
+        }
+		})  
+		// 自动控制
+		var i=0; 
+		var time=setInterval(moveR,3000);
+		// 向右走
+		function moveR(){
+			i++;
+			if (i==size) {
+				i=0;
+			}
+			right();
+		}
+		function right(){
+			$(".oul2 li").eq(i).addClass("ali").siblings().removeClass("ali");
+			var width=$(".adiv").width()
+			$(".oul1 li").eq(i).show().siblings().hide().stop().css({"left":width*2+"px"});
+			// 判断共用条件
+			$(".oul1 li").eq(i).stop().css({"left":width*2+"px"}).animate({left:width+"px"},800);
+            if(i==0){
+                $(".oul1 li").eq(size-1).hide().css({"left":width+"px"}).animate({left:"0px"},800).show();
+            }
+            else{
+                $(".oul1 li").eq(i-1).css({"left":width+"px"}).animate({left:"0px"},800).show();
+            }
+			}
+		
+
+		$(".adiv").hover(function(){
+		clearInterval(time);
+	   },function(){
+		  time=setInterval(moveR,3000);
+	   })
+	//    向左走
+	   function moveL(){
+			i--;
+			if (i==-1) {
+				i=size-1;
+			}			
+			left();	
+		}
+		function left(){
+            $(".oul2 li").eq(i).addClass("ali").siblings().removeClass("ali");
+			var width=$(".adiv").width()
+			$(".oul1 li").eq(i).show().siblings().hide().stop().css({"left":"0px"});
+			// 判断共用条件
+            $(".oul1 li").eq(i).stop().css({"left":"0px"}).animate({left:width+"px"},800);
+            if(i==0){
+                $(".oul1 li").eq(1).hide().css({"left":width+"px"}).animate({left:width*2+"px"},800).show();
+            }
+            else if(i==size-1){
+                $(".oul1 li").eq(0).stop().show().css({"left":width+"px"}).animate({left:width*2+"px"},800);
+            }
+            else{
+                $(".oul1 li").eq(i+1).css({"left":width+"px"}).animate({left:width*2+"px"},800).show();
+            }
+			}
+			// 左按钮
+		$(".left").click(function(){
+			moveL();
+		})
+		// 右按钮
+		$(".right").click(function(){
+			moveR();
+		})		
+	// })	
+	
+</script>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="js/jquery.js"></script>
+</head>
+<body>
+        <button>全选</button>
+		<button>不选</button>
+		<button>反选</button>
+		<div id="demo">
+			<input type="checkbox" />中国人民1<br />
+			<input type="checkbox" />中国人民2<br />
+			<input type="checkbox" />中国人民3<br />
+			<input type="checkbox" />中国人民4<br />
+			<input type="checkbox" />中国人民5<br />
+			<input type="checkbox" />中国人民6<br />
+			<input type="checkbox" />中国人民7<br />
+			<input type="checkbox" />中国人民8<br />
+		</div>
+</body>
+</html>
+<script>
+
+$(function(){
+    $("button").eq(0).click(function(){ 
+		 
+    $("#demo input").prop("checked","checked");
+	})
+	$("button").eq(1).click(function(){  		
+    $("#demo input").prop("checked",false);
+	})
+	$("button").eq(2).click(function(){ 
+		for(var i=0;i<$("#demo input").length;i++){
+          if($("#demo input").eq(i).prop("checked")){
+		    $("#demo input").eq(i).prop("checked",false);
+		}
+		else {
+			$("#demo input").eq(i).prop("checked","checked");
+			
+		}   
+		}
+		
+	})
+})
+</script>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="js/jquery.js"></script>
+</head>
+<body>
+</body>
+</html>
+<script>
+     $(function(){
+         $("*").css({"margin":"0px","padding":"0px"});
+         $("body").prepend("<div class='adiv'></div>");
+         $(".adiv").css({"width":"1500px","height":"800px","margin":"auto","position":"relative"}).prepend("<div class='bdiv'></div>").append("<input type='text' value='' class='ainput'/>").append("<button>按钮</button>");
+         $(".bdiv").css({"width":"800px","height":"500px","border":"1px solid red","margin":"auto","overflow":"auto"});
+         $(".ainput").css({"width":"500px","height":"50px","position":"absolute","top":"600px","left":"350px"});
+         $("button").css({"width":"80px","height":"50px","position":"absolute","top":"600px","left":"950px"});
+         $(document).keydown(function(e){
+            var e = e||event;
+            if(e.keyCode == 13){ 
+               move();
+            }
+         });
+         $("button").click(move);
+         function move(){
+            if($(".ainput").val()==""||$(".ainput").val()==null){
+                 alert("内容不能为空");
+             }
+             else{
+             var avalue=$(".ainput").val();
+             $(".bdiv").prepend("<p>"+avalue+"<span class='aspan'>删除</span>"+"</p>");
+             $(".aspan").css({"margin":"0px 0px 0px 30px","color":"red"});
+             $(".ainput").val("") ; 
+             }    
+         }
+         $(".bdiv").delegate("span","click",function(){
+         $(this).parent().remove();
+         });   
+     });
+</script>

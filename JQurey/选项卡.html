@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    button{
+        width: 50px;
+        height: 30px;
+        /* background: red; */
+    }
+    div{
+        width: 200px;
+        height: 200px;
+        /* background: red; */
+        border: 1px solid blue;
+        display: none;
+    }
+    .aa{
+        background: red;
+    }
+    </style>
+</head>
+<body>
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>4</button>
+    <span>
+         <div>1</div>
+         <div>2</div>
+         <div>3</div>
+         <div>4</div>
+    </span>
+   
+</body>
+</html>
+<script src="JS/jquery.js"></script>
+<script>
+    $(function(){
+       $("div").eq(0).show();
+       $("button").eq(0).addClass("aa");
+       $("button").click(function(){
+           $(this).addClass("aa").siblings().removeClass("aa");
+           $("div").eq($(this).index()).show().siblings().hide();
+       })
+    })
+
+</script>

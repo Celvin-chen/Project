@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="js/jquery.js"></script>
+    <script src="js/ShoppingBox.js"></script>
+    <style>
+    *{
+        margin: 0px;
+        padding: 0px;
+        
+    }
+    </style>
+</head>
+<body>
+    <script>
+         var width = 120;
+         var height = 30;
+         var position ='absolute';
+         var x = 600;
+         var y = 100;
+    var box = new ShoppingBox(width,height,position,x,y);
+    box.SetShoppingBox(); 
+    var aa = new ShoppingBox(width,height,position,x,200);
+    aa.SetShoppingBox();   
+    </script>
+</body>
+</html>
